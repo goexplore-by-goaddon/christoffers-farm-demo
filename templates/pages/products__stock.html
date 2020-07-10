@@ -10,7 +10,8 @@
   {% if company == nil %}
     <h1 class="display-4">{{ l.no_company }}</h1>
   {% else %}
-    {% assign products_query    = "products" | db_find: _id: params.id, company_id: company._id %}
+    {% assign sku               = params.id | encrypt %}
+    {% assign products_query    = "products" | db_find: sku: sku, company_id: company._id %}
     {% assign product           = products_query.results.first %}
   {% endif %}
 

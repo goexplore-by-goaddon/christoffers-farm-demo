@@ -11,7 +11,7 @@
   "products": {
     "klass": "products",
     "query": {
-      "_id": "{{ _id }}",
+      "sku": "{{ sku }}",
       "company_id": "{{ company_id }}"
     },
     "projection": {
