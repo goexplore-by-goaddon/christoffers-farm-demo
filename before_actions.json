@@ -3,6 +3,6 @@
     "unauthenticated": false
   },
   "container": {
-    "static_pages__index": "unauthenticated"
+    "products__stock": "unauthenticated"
   }
 }
