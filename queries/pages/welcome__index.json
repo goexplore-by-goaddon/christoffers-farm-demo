@@ -1,0 +1,11 @@
+{
+  "update_company": {
+    "klass": "companies",
+    "query": {
+      "_id": "{{ _id }}"
+    },
+    "document": {
+      "token": "{{ token }}"
+    }
+  }
+}

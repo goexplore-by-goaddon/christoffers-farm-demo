@@ -1,10 +1,25 @@
-<h1 class="display-4">
-  {% if params.token == nil or params.token != project.secrets.token %}
-    {{ l.invalid_token }}
-  {% elsif params.count == nil %}
-    {{ l.no_count }}
+{% if params.token == nil %}
+  <h1 class="display-4">{{ l.invalid_token }}</h1>
+{% elsif params.count == nil %}
+  <h1 class="display-4">{{ l.no_count }}</h1>
+{% else %}
+
+  {% assign token             = params.token | encrypt %}
+  {% assign companies_query   = "companies" | db_find: token: token %}
+  {% assign company           = companies_query.results.first %}
+  {% if company == nil %}
+    <h1 class="display-4">{{ l.no_company }}</h1>
   {% else %}
-    <p>{{ l.stock_change }}</p>
-    <p>{{ params.count }}</p>
+    {% assign products_query    = "products" | db_find: token: token, _id: params.id %}
+    {% assign product           = products_query.results.first %}
   {% endif %}
-</h1>
+
+  {% if product == nil %}
+    <h5 class="mb-3">{{ l.not_found }}</h5>
+  {% else %}
+
+  {% endif %}
+
+  <p>{{ l.stock_change }}</p>
+  <p>{{ params.count }}</p>
+{% endif %}

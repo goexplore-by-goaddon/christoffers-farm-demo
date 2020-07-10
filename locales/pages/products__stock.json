@@ -1,7 +1,8 @@
 {
   "en": {
-    "invalid_token": "Invalid token",
+    "no_token": "No token",
     "no_count": "No count",
+    "no_company": "Invalid tokeen",
     "stock_change": "Stock count change"
   }
 }
