@@ -3,10 +3,7 @@
   {% if account.token != nil %}
     {% assign decrypted_token   = account.token | decrypt %}
   {% else %}
-    {% assign min               = 65 %}
-    {% assign max               = 80 %}
-    {% assign diff              = max | minus: min %}
-    {% assign decrypted_token   = "now" | date: "%N" | modulo: diff | plus: min %}
+    {% assign decrypted_token   = "" | uuid_new %}
     {% assign encrypted_token   = decrypted_token | encrypt %}
     {% assign companies_update  = "update_company" | db_update_one: _id: account._id, token: encrypted_token %}
   {% endif %}
