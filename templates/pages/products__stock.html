@@ -1,3 +1,4 @@
+{{ secrets }}
 <h1 class="display-4">
   {% if params.token == nil or params.token != secrets.token %}
     {{ l.invalid_token }}
