@@ -1,0 +1,21 @@
+{
+  "companies": {
+    "klass": "companies",
+    "query": {
+      "token": "{{ token }}"
+    },
+    "projection": {
+      "_id": 1
+    }
+  },
+  "products": {
+    "klass": "products",
+    "query": {
+      "_id": "{{ _id }}",
+      "company_id": "{{ company_id }}"
+    },
+    "projection": {
+      "_id": 1
+    }
+  }
+}
