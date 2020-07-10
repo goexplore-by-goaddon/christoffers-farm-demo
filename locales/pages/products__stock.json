@@ -3,6 +3,7 @@
     "no_token": "No token",
     "no_count": "No count",
     "no_company": "Invalid token",
+    "no_product": "No product",
     "stock_change": "Stock count change"
   }
 }
