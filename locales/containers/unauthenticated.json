@@ -1,9 +1,9 @@
 {
-	"en": {
-		"logo": "Logo",
-		"frontpage": "Frontpage",
-		"sign_up": "Create account",
-		"sign_in": "Sign in",
-		"footer": "Footer"
-	}
+  "en": {
+    "logo": "Task manager",
+    "frontpage": "Frontpage",
+    "sign_up": "Create account",
+    "sign_in": "Sign in",
+    "footer": "Task manager demo"
+  }
 }
