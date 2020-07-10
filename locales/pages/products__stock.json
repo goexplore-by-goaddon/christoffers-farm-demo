@@ -1,7 +1,7 @@
 {
   "en": {
     "invalid_token": "Invalid token",
-    "no_count": "No count to add or remove from stock",
-    "stock_changed_with": "Stock count changed with"
+    "no_count": "No count",
+    "stock_change": "Stock count change"
   }
 }

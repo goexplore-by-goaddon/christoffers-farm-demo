@@ -1,10 +1,10 @@
-{{ secrets }}
 <h1 class="display-4">
-  {% if params.token == nil or params.token != secrets.token %}
+  {% if params.token == nil or params.token != project.secrets.token %}
     {{ l.invalid_token }}
   {% elsif params.count == nil %}
     {{ l.no_count }}
   {% else %}
-    {{ l.stock_changed_with }} {{ params.count }}
+    <p>{{ l.stock_change }}</p>
+    <p>{{ params.count }}</p>
   {% endif %}
 </h1>
