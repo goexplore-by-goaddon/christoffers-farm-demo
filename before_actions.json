@@ -3,6 +3,6 @@
     "unauthenticated": false
   },
   "container": {
-    "variants__adjust": "unauthenticated"
+    "variants__scan": "unauthenticated"
   }
 }
