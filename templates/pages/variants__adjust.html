@@ -1,6 +1,6 @@
 {% if params.token == nil %}
-  <h1 class="display-4">{{ l.invalid_token }}</h1>
-{% elsif params.count == nil %}
+  <h1 class="display-4">{{ l.no_token }}</h1>
+{% elsif params.stock_change == nil %}
   <h1 class="display-4">{{ l.no_count }}</h1>
 {% else %}
 
@@ -19,6 +19,6 @@
     <h5 class="mb-3">{{ l.no_variant }}</h5>
   {% else %}
     <p>{{ l.stock_change }}</p>
-    <p>{{ params.count }}</p>
+    <p><h5 class="mb-3">{{ params.stock_change }}</h5></p>
   {% endif %}
 {% endif %}
