@@ -1,7 +1,7 @@
 {
   "en": {
-    "no_token": "No token",
-    "no_count": "No count",
+    "no_token": "No token param",
+    "stock_change": "No stock_change param",
     "no_company": "Invalid token",
     "no_variant": "No variant",
     "webhook_error": "Error while changing stock count",

@@ -1,7 +1,7 @@
 {% if params.token == nil %}
   <h1 class="display-4">{{ l.no_token }}</h1>
 {% elsif params.stock_change == nil %}
-  <h1 class="display-4">{{ l.no_count }}</h1>
+  <h1 class="display-4">{{ l.stock_change }}</h1>
 {% else %}
 
   {% assign token             = params.token | encrypt %}
