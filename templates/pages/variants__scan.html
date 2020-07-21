@@ -20,7 +20,7 @@
   {% else %}
     {% assign variants_update = "update_variant" | webhook: gofetch_api_url: project.secrets.gofetch_api_url, gofetch_api_token: project.secrets.gofetch_api_token, variant_id: variant._id, stock_change: params.stock_change %}
     {% if variants_update.code != 200 %}
-      <h5 class="mb-3">{{ l.webhook_error }}</h5>
+      <h5 class="mb-3">{{ l.webhook_error }} ({{ variants_update.code }})</h5>
       {% if variants_update.body != nil %}
         {{ variants_update.body.error }}
       {% endif %}
