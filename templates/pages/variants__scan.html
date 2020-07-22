@@ -26,7 +26,11 @@
       {% endif %}
     {% else %}
       <p>{{ l.stock_change }}</p>
-      <p><h5 class="mb-3">{{ params.stock_change }}</h5></p>      
+      <p><h5 class="mb-3">{{ params.stock_change }}</h5></p>
+      {% if variants_update.body.stock != nil %}
+        <p>{{ l.stock }}</p>
+        <p><h5 class="mb-3">{{ variants_update.body.stock }}</h5></p>
+      {% endif %}
     {% endif %}
   {% endif %}
 {% endif %}
