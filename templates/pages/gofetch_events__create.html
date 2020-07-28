@@ -1,0 +1,8 @@
+{% if project.secrets.gofetch_webhook_token != headers.authentication %}
+  {"status": "500", "error": "Can not authenticate"}
+{% else %}
+  {% if params.event == "fetched_data" and params.details.variants != nil and params.details.variants.updated != nil and params.details.variants.updated > 0 %}
+    {% assign job = "print_orders" | create_job: company_id: params._id %}
+  {% endif %}
+  {"status": "200"}
+{% endif %}

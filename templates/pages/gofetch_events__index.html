@@ -1,0 +1,150 @@
+<p>1</p>
+{% assign orders_query = "orders" | db_find: company_id: params._id %}
+<p>2</p>
+{% if orders_query.results_count > 0 %}
+  <p>3</p>
+  {% assign orders            = orders_query.results %}
+  {% assign order_ids         = "" %}
+  <p>4</p>
+  {% for order in orders %}
+    <p>5</p>
+    {% capture order_ids %}{{ order_ids }} {{ order._id }}{% endcapture %}
+    <p>6</p>
+  {% endfor %}
+  <p>7</p>
+  {% assign order_ids         = order_ids | lstrip | split: " " %}
+  <p>8</p>
+  {% assign order_lines_query = "order_lines" | db_find: company_id: params._id, order_ids: order_ids %}
+  <p>9</p>
+  {% if order_lines_query.results_count > 0 %}
+    <p>10</p>
+    {% assign order_lines = order_lines_query.results %}
+    <p>11</p>
+    {% assign variant_ids = "" %}
+
+    {% for order_line in order_lines %}
+      <p>12</p>
+      {% if order_line.variant_id != nil %}
+        <p>13</p>
+        {% capture variant_ids %}{{ variant_ids }} {{ order_line.variant_id }}{% endcapture %}
+        <p>14</p>
+      {% endif %}
+    {% endfor %}
+    <p>15</p>
+    {% assign variant_ids = variant_ids | lstrip | split: " " %}
+    <p>16</p>
+    {% if variant_ids.size > 0 %}
+      <p>17</p>
+      {% assign variants_query  = "variants" | db_find: company_id: params._id, variant_ids: variant_ids %}
+      <p>18</p>
+      {% assign variants        = variants_query.results %}
+      <p>19</p>
+      {% assign variants        = variants | to_hash: "_id" %}
+      <p>20</p>
+      {% for order_line in order_lines %}
+        <p>21</p>
+        {% assign variant_id = order_line.variant_id %}
+        <p>22</p>
+        {% if variant_id != nil %}
+          <p>23</p>
+          {% assign variant   = variants[variant_id] %}
+          <p>24</p>
+          {% assign stock     = variant.stock | plus: order_line.quantity %}
+          <p>25</p>
+          {% assign variant   = variant | push_to_hash: "stock", stock %}
+          <p>26</p>
+          {% assign variants  = variants | push_to_hash: variant_id, variant %}
+          <p>27</p>
+
+        {% endif %}
+      {% endfor %}
+
+      {% assign order_line_groups = order_lines | to_hash_groups: "order_id" %}
+      <p>28</p>
+      {% for order in orders %}
+        <p>29</p>
+        {% assign order_id    = order._id %}
+        {% assign order_lines = order_line_groups[order_id] %}
+        <p>30</p>
+
+        {% if order_lines != nil %}
+          <p>31</p>
+          {% assign print_order     = true %}
+          {% assign package_weight  = 300 %}
+          {% assign packing_list    = "" %}
+
+          {% for order_line in order_lines %}
+            <p>31</p>
+            {% assign variant_id = order_line.variant_id %}
+            <p>33</p>
+            {% if variant_id != nil %}
+              <p>34</p>
+              {% assign variant         = variants[variant_id] %}
+              <p>35</p>
+              {% assign stock           = variant.stock | minus: order_line.quantity %}
+              <p>36</p>
+              {% assign weight          = 150 | times: order_line.quantity %}
+              <p>37</p>
+              {% assign package_weight  = weight | plus: weight %}
+              <p>38</p>
+              {% assign product_name    = order_line.product_name | decrypt %}
+              <p>39</p>
+              {% capture packing_list %}{{ packing_list }}{{ product_name }}: {{ order_line.quantity }}. {% endcapture %}
+              <p>40</p>
+              {% if stock < 0 %}
+                <p>41</p>
+                {% assign print_order = false %}
+
+              {% endif %}
+
+              {% assign variant   = variant | push_to_hash: "stock", stock %}
+              <p>42</p>
+              {% assign variants  = variants | push_to_hash: variant_id, variant %}
+              <p>43</p>
+
+            {% endif %}
+          {% endfor %}
+
+          {% if print_order and order.print_state == nil %}
+            <p>44</p>
+            {% assign printing_order_query = "printing_order" | db_update_one: company_id: params._id, order_id: order._id %}
+            <p>45</p>
+            {% if printing_order_query.updated_count == 1 %}
+              <p>46</p>
+              {% assign shipping_name       = order.shipping_name | decrypt %}
+              {% assign shipping_first_name = order.shipping_first_name | decrypt %}
+              {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
+
+              {% if shipping_name != nil %}
+
+                {% assign name = shipping_name %}
+
+              {% else %}
+
+                {% assign name = shipping_first_name %}
+                {% capture name %}{{ name }} {{ shipping_last_name }}{% endcapture %}
+
+              {% endif %}
+
+              {% assign address_1           = order.shipping_address_1 | decrypt %}
+              {% assign address_2           = order.shipping_address_2 | decrypt %}
+              {% assign zip_code            = order.shipping_zip_code | decrypt %}
+              {% assign city                = order.shipping_city | decrypt %}
+              {% assign mail_address        = order.mail_address | decrypt %}
+              {% assign phone               = order.shipping_phone | decrypt %}
+              <p>47</p>
+              {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, phone: phone, package_weight: package_weight, packing_list: packing_list %}
+              <p>48</p>
+              {% if print_order_webhook.code == 200 %}
+                <p>49</p>
+                {% assign printed_order_query = "printed_order" | db_update_one: company_id: params._id, order_id: order._id %}
+                <p>50</p>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+{% endif %}

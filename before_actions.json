@@ -1,8 +1,11 @@
 {
   "authenticate": {
-    "unauthenticated": false
+    "unauthenticated": false,
+    "gofetch_api": false
   },
   "container": {
-    "variants__scan": "unauthenticated"
+    "variants__scan": "unauthenticated",
+    "gofetch_events__index": "gofetch_api",
+    "gofetch_events__create": "gofetch_api"
   }
 }
