@@ -10,7 +10,7 @@
       "test_mode": true,
       "own_agreement": false,
       "product_code": "GLSDK_SD",
-      "service_codes": "EMAIL_NT,SMS_NT",
+      "service_codes": "EMAIL_NT",
       "automatic_select_service_point": true,
       "sender": {
         "name": "Christoffers Farm",
@@ -26,8 +26,7 @@
         "zipcode": "{{ zip_code }}",
         "city": "{{ city }}",
         "country_code": "DK",
-        "email": "{{ mail_address }}",
-        "mobile": "{{ phone }}"
+        "email": "{{ mail_address }}"
       },
       "parcels": [
         {

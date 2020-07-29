@@ -1,10 +1,10 @@
 {
   "update_variant": {
     "method": "patch",
-    "url": "{{ gofetch_api_url }}/shop_api/v1/variants/{{ variant_id }}/change_stock",
+    "url": "https://{{ gofetch_url }}/shop_api/v1/variants/{{ variant_id }}/change_stock",
     "headers": {
       "Content-Type": "application/json",
-      "Authorization": "{{ gofetch_api_token }}"
+      "Authorization": "{{ gofetch_shop_api_token }}"
     },
     "body": {
       "data": {

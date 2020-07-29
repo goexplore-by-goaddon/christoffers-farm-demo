@@ -105,40 +105,44 @@
             {% endif %}
           {% endfor %}
 
-          {% if print_order and order.print_state == nil %}
-            <p>44</p>
-            {% assign printing_order_query = "printing_order" | db_update_one: company_id: params._id, order_id: order._id %}
-            <p>45</p>
-            {% if printing_order_query.updated_count == 1 %}
-              <p>46</p>
-              {% assign shipping_name       = order.shipping_name | decrypt %}
-              {% assign shipping_first_name = order.shipping_first_name | decrypt %}
-              {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
+          {% if print_order %}
+            <p>43.5</p>
+            {% if order.print_state == nil or order.print_state == "failed" %}
+              <p>44</p>
+              {% assign printing_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printing" %}
+              <p>45</p>
+              {% if printing_order_query.updated_count == 1 %}
+                <p>46</p>
+                {% assign shipping_name       = order.shipping_name | decrypt %}
+                {% assign shipping_first_name = order.shipping_first_name | decrypt %}
+                {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
 
-              {% if shipping_name != nil %}
+                {% if shipping_name != nil %}
 
-                {% assign name = shipping_name %}
+                  {% assign name = shipping_name %}
 
-              {% else %}
+                {% else %}
 
-                {% assign name = shipping_first_name %}
-                {% capture name %}{{ name }} {{ shipping_last_name }}{% endcapture %}
+                  {% assign name = shipping_first_name %}
+                  {% capture name %}{{ name }} {{ shipping_last_name }}{% endcapture %}
 
-              {% endif %}
+                {% endif %}
 
-              {% assign address_1           = order.shipping_address_1 | decrypt %}
-              {% assign address_2           = order.shipping_address_2 | decrypt %}
-              {% assign zip_code            = order.shipping_zip_code | decrypt %}
-              {% assign city                = order.shipping_city | decrypt %}
-              {% assign mail_address        = order.mail_address | decrypt %}
-              {% assign phone               = order.shipping_phone | decrypt %}
-              <p>47</p>
-              {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, phone: phone, package_weight: package_weight, packing_list: packing_list %}
-              <p>48</p>
-              {% if print_order_webhook.code == 200 %}
-                <p>49</p>
-                {% assign printed_order_query = "printed_order" | db_update_one: company_id: params._id, order_id: order._id %}
-                <p>50</p>
+                {% assign address_1           = order.shipping_address_1 | decrypt %}
+                {% assign address_2           = order.shipping_address_2 | decrypt %}
+                {% assign zip_code            = order.shipping_zip_code | decrypt %}
+                {% assign city                = order.shipping_city | decrypt %}
+                {% assign mail_address        = order.mail_address | decrypt %}
+                <p>47</p>
+                {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list %}
+                <p>48</p>
+                {% if print_order_webhook.code != 200 %}
+                  {% assign reset_order_print_state_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "failed" %}
+                {% else %}
+                  <p>49</p>
+                  {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printed" %}
+                  <p>50</p>
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endif %}

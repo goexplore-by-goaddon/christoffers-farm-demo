@@ -18,7 +18,7 @@
   {% if variant == nil %}
     <h5 class="mb-3">{{ l.no_variant }}</h5>
   {% else %}
-    {% assign variants_update = "update_variant" | webhook: gofetch_api_url: project.secrets.gofetch_api_url, gofetch_api_token: project.secrets.gofetch_api_token, variant_id: variant._id, stock_change: params.stock_change %}
+    {% assign variants_update = "update_variant" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, variant_id: variant._id, stock_change: params.stock_change %}
     {% if variants_update.code != 200 %}
       <h5 class="mb-3">{{ l.webhook_error }} ({{ variants_update.code }})</h5>
       {% if variants_update.body != nil %}
