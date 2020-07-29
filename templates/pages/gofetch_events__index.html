@@ -144,7 +144,15 @@
                   <p>50</p>
                   {% if printing_order_query.updated_count == 1 %}
                     <p>51</p>
-                    {% assign create_shipment = "create_shipment" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, order_id: order._id %}
+
+                    {% assign order_line_ids  = "" %}
+                    {% for order_line in order_lines %}
+                      {% capture order_line_ids %}{{ order_line_ids }} {{ order_line._id }}{% endcapture %}
+                    {% endfor %}
+
+                    {% assign order_line_ids  = order_line_ids | lstrip | split: " " %}
+
+                    {% assign create_shipment = "create_shipment" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, order_id: order._id, order_line_ids: order_line_ids %}
                     <p>52: {{ create_shipment }}</p>
                   {% endif %}
                 {% endif %}
