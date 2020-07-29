@@ -144,7 +144,9 @@
                   {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printed" %}
                   <p>50</p>
                   {% if printing_order_query.updated_count == 1 %}
+                    <p>51</p>
                     {% assign close_order = "close_order" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, order_id: order._id %}
+                    <p>50: {{ close_order }}</p>
                   {% endif %}
                 {% endif %}
               {% endif %}
