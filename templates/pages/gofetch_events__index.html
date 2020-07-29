@@ -89,7 +89,7 @@
               <p>38</p>
               {% assign product_name    = order_line.product_name | decrypt %}
               <p>39</p>
-              {% capture packing_list %}{{ packing_list }}{{ product_name }}: {{ order_line.quantity }}. {% endcapture %}
+              {% capture packing_list %}{{ packing_list }}{{ product_name }}: {{ order_line.quantity }} pcs. {% endcapture %}
               <p>40</p>
               {% if stock < 0 %}
                 <p>41</p>
@@ -134,7 +134,7 @@
                 {% assign city                = order.shipping_city | decrypt %}
                 {% assign mail_address        = order.mail_address | decrypt %}
                 <p>47</p>
-                {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list %}
+                {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list, order_number: order.order_number %}
                 <p>48: {{ print_order_webhook }}</p>
                 {% if print_order_webhook.code != 200 %}
                   <p>48.5</p>
@@ -143,6 +143,9 @@
                   <p>49</p>
                   {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printed" %}
                   <p>50</p>
+                  {% if printing_order_query.updated_count == 1 %}
+                    {% assign close_order = "close_order" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, order_id: order._id %}
+                  {% endif %}
                 {% endif %}
               {% endif %}
             {% endif %}
