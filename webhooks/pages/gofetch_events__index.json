@@ -46,5 +46,14 @@
       "Authorization": "{{ gofetch_shop_api_token }}"
     },
     "body": {}
+  },
+  "create_shipment": {
+    "method": "patch",
+    "url": "https://{{ gofetch_url }}/shop_api/v1/orders/{{ order_id }}/create_shipment",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "{{ gofetch_shop_api_token }}"
+    },
+    "body": {}
   }
 }
