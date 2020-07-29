@@ -135,8 +135,9 @@
                 {% assign mail_address        = order.mail_address | decrypt %}
                 <p>47</p>
                 {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list %}
-                <p>48</p>
+                <p>48: {{ print_order_webhook }}</p>
                 {% if print_order_webhook.code != 200 %}
+                  <p>48.5</p>
                   {% assign reset_order_print_state_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "failed" %}
                 {% else %}
                   <p>49</p>
