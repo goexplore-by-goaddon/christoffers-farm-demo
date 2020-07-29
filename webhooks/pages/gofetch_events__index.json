@@ -7,6 +7,7 @@
       "Content-Type": "application/json"
     },
     "body": {
+      "test_mode": false,
       "own_agreement": false,
       "product_code": "BRI_PP",
       "service_codes": "EMAIL_NT",
