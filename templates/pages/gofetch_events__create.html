@@ -1,6 +1,6 @@
-{% if project.secrets.gofetch_webhook_token != headers.authentication %}
+{% if project.secrets.gofetch_webhook_token != headers.authorization %}
 
-  {"status": "500", "error": "Can not authenticate"}
+  {"status": "500", "error": "Can not authorize"}
 
 {% else %}
 
