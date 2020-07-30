@@ -1,18 +1,17 @@
 {% assign orders_query = "orders" | db_find: company_id: params._id %}
 
-{% if orders_query.results_count > 0 %}
+{% if orders_query.results_count == 0 %}
+  {"result": "No orders"}
+{% else %}
 
   {% assign orders            = orders_query.results %}
   {% assign order_ids         = "" %}
 
   {% for order in orders %}
-
     {% capture order_ids %}{{ order_ids }} {{ order._id }}{% endcapture %}
-
   {% endfor %}
 
   {% assign order_ids         = order_ids | lstrip | split: " " %}
-
   {% assign order_lines_query = "order_lines" | db_find: company_id: params._id, order_ids: order_ids %}
 
   {% if order_lines_query.results_count > 0 %}
@@ -22,9 +21,7 @@
 
     {% for order_line in order_lines %}
       {% if order_line.variant_id != nil %}
-
         {% capture variant_ids %}{{ variant_ids }} {{ order_line.variant_id }}{% endcapture %}
-
       {% endif %}
     {% endfor %}
 
@@ -75,7 +72,7 @@
               {% assign package_weight  = weight | plus: weight %}
               {% assign product_name    = order_line.product_name | decrypt %}
 
-              {% capture packing_list %}{{ packing_list }}{{ product_name }}: {{ order_line.quantity }}. {% endcapture %}
+              {% capture packing_list %}{{ packing_list }}{{ product_name }}: {{ order_line.quantity }} pcs. {% endcapture %}
 
               {% if stock < 0 %}
 
@@ -89,46 +86,62 @@
             {% endif %}
           {% endfor %}
 
-          {% if print_order and order.print_state == nil %}
+          {% if print_order %}
+            {% if order.print_state == nil or order.print_state == "failed" %}
 
-            {% assign printing_order_query = "printing_order" | db_update_one: company_id: params._id, order_id: order._id %}
+              {% assign printing_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printing" %}
 
-            {% if printing_order_query.updated_count == 1 %}
+              {% if printing_order_query.updated_count == 1 %}
 
-              {% assign shipping_name       = order.shipping_name | decrypt %}
-              {% assign shipping_first_name = order.shipping_first_name | decrypt %}
-              {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
+                {% assign shipping_name       = order.shipping_name | decrypt %}
+                {% assign shipping_first_name = order.shipping_first_name | decrypt %}
+                {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
 
-              {% if shipping_name != nil %}
+                {% if shipping_name != nil %}
 
-                {% assign name = shipping_name %}
+                  {% assign name = shipping_name %}
 
-              {% else %}
+                {% else %}
 
-                {% assign name = shipping_first_name %}
-                {% capture name %}{{ name }} {{ shipping_last_name }}{% endcapture %}
+                  {% assign name = shipping_first_name %}
+                  {% capture name %}{{ name }} {{ shipping_last_name }}{% endcapture %}
 
-              {% endif %}
+                {% endif %}
 
-              {% assign address_1           = order.shipping_address_1 | decrypt %}
-              {% assign address_2           = order.shipping_address_2 | decrypt %}
-              {% assign zip_code            = order.shipping_zip_code | decrypt %}
-              {% assign city                = order.shipping_city | decrypt %}
-              {% assign mail_address        = order.mail_address | decrypt %}
-              {% assign phone               = order.shipping_phone | decrypt %}
+                {% assign address_1           = order.shipping_address_1 | decrypt %}
+                {% assign address_2           = order.shipping_address_2 | decrypt %}
+                {% assign zip_code            = order.shipping_zip_code | decrypt %}
+                {% assign city                = order.shipping_city | decrypt %}
+                {% assign mail_address        = order.mail_address | decrypt %}
+                {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list, order_number: order.order_number %}
 
-              {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, phone: phone, package_weight: package_weight, packing_list: packing_list %}
+                {% if print_order_webhook.code != 200 %}
 
-              {% if print_order_webhook.code == 200 %}
+                  {% assign reset_order_print_state_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "failed" %}
 
-                {% assign printed_order_query = "printed_order" | db_update_one: company_id: params._id, order_id: order._id %}
+                {% else %}
 
+                  {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printed" %}
+
+                  {% if printing_order_query.updated_count == 1 %}
+
+                    {% assign order_line_ids  = "" %}
+
+                    {% for order_line in order_lines %}
+                      {% capture order_line_ids %}{{ order_line_ids }} {{ order_line._id }}{% endcapture %}
+                    {% endfor %}
+
+                    {% assign order_line_ids  = order_line_ids | lstrip | split: " " %}
+                    {% assign create_shipment = "create_shipment" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, order_id: order._id, order_line_ids: order_line_ids %}
+
+                  {% endif %}
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endif %}
-
         {% endif %}
       {% endfor %}
     {% endif %}
   {% endif %}
+  {"result": "Ran"}
 {% endif %}
