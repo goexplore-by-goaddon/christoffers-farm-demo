@@ -1,4 +1,4 @@
-{% assign orders_query = "orders" | db_find: company_id: params._id %}
+{% assign orders_query = "orders" | db_find: company_id: params.company_id %}
 
 {% if orders_query.results_count == 0 %}
   {"result": "No orders"}
@@ -12,7 +12,7 @@
   {% endfor %}
 
   {% assign order_ids         = order_ids | lstrip | split: " " %}
-  {% assign order_lines_query = "order_lines" | db_find: company_id: params._id, order_ids: order_ids %}
+  {% assign order_lines_query = "order_lines" | db_find: company_id: params.company_id, order_ids: order_ids %}
 
   {% if order_lines_query.results_count > 0 %}
 
@@ -29,7 +29,7 @@
 
     {% if variant_ids.size > 0 %}
 
-      {% assign variants_query  = "variants" | db_find: company_id: params._id, variant_ids: variant_ids %}
+      {% assign variants_query  = "variants" | db_find: company_id: params.company_id, variant_ids: variant_ids %}
       {% assign variants        = variants_query.results %}
       {% assign variants        = variants | to_hash: "_id" %}
 
@@ -89,7 +89,7 @@
           {% if print_order %}
             {% if order.print_state == nil or order.print_state == "failed" %}
 
-              {% assign printing_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printing" %}
+              {% assign printing_order_query = "update_order_print_state" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "printing" %}
 
               {% if printing_order_query.updated_count == 1 %}
 
@@ -117,11 +117,11 @@
 
                 {% if print_order_webhook.code != 200 %}
 
-                  {% assign reset_order_print_state_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "failed" %}
+                  {% assign reset_order_print_state_query = "update_order_print_state" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "failed" %}
 
                 {% else %}
 
-                  {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params._id, order_id: order._id, print_state: "printed" %}
+                  {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "printed" %}
 
                   {% if printing_order_query.updated_count == 1 %}
 

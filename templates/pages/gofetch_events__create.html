@@ -2,7 +2,7 @@
   {"status": "500", "error": "Can not authenticate"}
 {% else %}
   {% assign events = "fetched_data received_data" | split: " " %}
-  {% if events contains params.event and params.details.variants != nil and params.details.variants.updated != nil and params.details.variants.updated > 0 %}
+  {% if events contains params.event and params.details.stats.variants != nil and params.details.stats.variants.updated != nil and params.details.stats.variants.updated > 0 %}
     {% assign job = "print_orders" | create_job: company_id: params._id %}
   {% endif %}
   {"status": "200"}
