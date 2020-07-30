@@ -1,19 +1,11 @@
 {% if project.secrets.gofetch_webhook_token != headers.authentication %}
-
   {"status": "500", "error": "Can not authenticate"}
-
 {% else %}
-
   {% assign events = "fetched_data received_data" | split: " " %}
   {% assign job_id = nil %}
-
   {% if events contains params.event and params.details.stats.variants != nil and params.details.stats.variants.updated != nil and params.details.stats.variants.updated > 0 %}
-
     {% assign job = "print_orders" | create_job: company_id: params._id %}
     {% assign job_id = job.job_id %}
-
   {% endif %}
-
   {"status": "200", "job_id" "{{ job_id }}"}
-
 {% endif %}
