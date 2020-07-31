@@ -1,35 +1,39 @@
-{% if params.token == nil %}
-  <h1 class="display-4">{{ l.no_token }}</h1>
-{% elsif params.stock_change == nil %}
+{% if params.stock_change == nil %}
+
   <h1 class="display-4">{{ l.stock_change }}</h1>
+
 {% else %}
 
-  {% assign token             = params.token | encrypt %}
-  {% assign companies_query   = "companies" | db_find: token: token %}
-  {% assign company           = companies_query.results.first %}
-  {% if company == nil %}
-    <h1 class="display-4">{{ l.no_company }}</h1>
-  {% else %}
-    {% assign sku               = params.id | encrypt %}
-    {% assign variants_query    = "variants" | db_find: sku: sku, company_id: company._id %}
-    {% assign variant           = variants_query.results.first %}
-  {% endif %}
+  {% assign sku               = params.id | encrypt %}
+  {% assign variants_query    = "variants" | db_find: sku: sku, company_id: account._id %}
+  {% assign variant           = variants_query.results.first %}
 
   {% if variant == nil %}
+
     <h5 class="mb-3">{{ l.no_variant }}</h5>
+
   {% else %}
+
     {% assign variants_update = "update_variant" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, variant_id: variant._id, stock_change: params.stock_change %}
+
     {% if variants_update.code != 200 %}
+
       <h5 class="mb-3">{{ l.webhook_error }} ({{ variants_update.code }})</h5>
+
       {% if variants_update.body != nil %}
         {{ variants_update.body.error }}
       {% endif %}
+
     {% else %}
+
       <p>{{ l.stock_change }}</p>
       <p><h5 class="mb-3">{{ params.stock_change }}</h5></p>
+
       {% if variants_update.body.result.stock != nil %}
+
         <p>{{ l.stock }}</p>
         <p><h5 class="mb-3">{{ variants_update.body.result.stock }}</h5></p>
+
       {% endif %}
     {% endif %}
   {% endif %}
