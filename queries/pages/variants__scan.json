@@ -1,17 +1,8 @@
 {
-  "companies": {
-    "klass": "companies",
-    "query": {
-      "token": "{{ token }}"
-    },
-    "projection": {
-      "_id": 1
-    }
-  },
   "variants": {
     "klass": "variants",
     "query": {
-      "sku": "{{ sku }}",
+      "sku_2": "{{ sku_2 }}",
       "company_id": "{{ company_id }}"
     },
     "projection": {
