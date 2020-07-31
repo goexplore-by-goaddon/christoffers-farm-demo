@@ -4,8 +4,8 @@
 
 {% else %}
 
-  {% assign sku               = params.id | encrypt %}
-  {% assign variants_query    = "variants" | db_find: sku: sku, company_id: account._id %}
+  {% assign sku_2             = params.id | encrypt %}
+  {% assign variants_query    = "variants" | db_find: sku_2: sku_2, company_id: account._id %}
   {% assign variant           = variants_query.results.first %}
 
   {% if variant == nil %}
