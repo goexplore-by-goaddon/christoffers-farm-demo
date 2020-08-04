@@ -1,17 +1,16 @@
 {
-  "companies": {
+  "update_company": {
     "klass": "companies",
     "query": {
       "_id": "{{ _id }}"
     },
-    "projection": {
-      "_id": 1,
-      "shipmondo_api_token": 1,
-      "shipmondo_name": 1,
-      "shipmondo_address_1": 1,
-      "shipmondo_zip_code": 1,
-      "shipmondo_city": 1,
-      "shipmondo_country_code": 1
+    "document": {
+      "shipmondo_api_token": "{{ shipmondo_api_token }}",
+      "shipmondo_name": "{{ shipmondo_name }}",
+      "shipmondo_address_1": "{{ shipmondo_address_1 }}",
+      "shipmondo_zip_code": "{{ shipmondo_zip_code }}",
+      "shipmondo_city": "{{ shipmondo_city }}",
+      "shipmondo_country_code": "{{ shipmondo_country_code }}}"
     }
   }
 }
