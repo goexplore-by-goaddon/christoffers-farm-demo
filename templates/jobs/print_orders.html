@@ -48,6 +48,8 @@
       {% endfor %}
 
       {% assign order_line_groups = order_lines | to_hash_groups: "order_id" %}
+      {% assign companies_query   = "companies" | db_find: _id: params.company_id %}
+      {% assign company           = companies_query.results.first %}
 
       {% for order in orders %}
 
@@ -56,7 +58,7 @@
 
         {% if order_lines != nil %}
 
-          {% assign print_order     = true %}
+          {% assign printable       = true %}
           {% assign package_weight  = 300 %}
           {% assign packing_list    = "" %}
 
@@ -76,7 +78,7 @@
 
               {% if stock < 0 %}
 
-                {% assign print_order = false %}
+                {% assign printable = false %}
 
               {% endif %}
 
@@ -86,10 +88,10 @@
             {% endif %}
           {% endfor %}
 
-          {% if print_order %}
+          {% if printable %}
             {% if order.print_state == nil or order.print_state == "failed" %}
 
-              {% assign printing_order_query = "update_order_print_state" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "printing" %}
+              {% assign printing_order_query = "update_order" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "printing" %}
 
               {% if printing_order_query.updated_count == 1 %}
 
@@ -113,15 +115,17 @@
                 {% assign zip_code            = order.shipping_zip_code | decrypt %}
                 {% assign city                = order.shipping_city | decrypt %}
                 {% assign mail_address        = order.mail_address | decrypt %}
-                {% assign print_order_webhook = "print_order" | webhook: shipmondo_api_token: project.secrets.shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list, order_number: order.order_number %}
+                {% shipmondo_api_token        = company.shipmondo_api_token | decrypt %}
 
-                {% if print_order_webhook.code != 200 %}
+                {% assign print_order = "print_order" | webhook: shipmondo_api_token: shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list, order_number: order.order_number, company_name: company.shipmondo_name, company_address1: company.shipmondo_address_1, company_zip_code: company.shipmondo_zip_code, company_city: company.shipmondo_city, country_code: company.shipmondo_country_code %}
 
-                  {% assign reset_order_print_state_query = "update_order_print_state" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "failed" %}
+                {% if print_order.code != 200 %}
+
+                  {% assign reset_order_print_state_query = "update_order" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "failed" %}
 
                 {% else %}
 
-                  {% assign printed_order_query = "update_order_print_state" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "printed" %}
+                  {% assign printed_order_query = "update_order" | db_update_one: company_id: params.company_id, order_id: order._id, print_state: "printed" %}
 
                   {% if printing_order_query.updated_count == 1 %}
 

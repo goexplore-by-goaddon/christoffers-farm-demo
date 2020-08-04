@@ -17,7 +17,6 @@
       "shipping_zip_code": 1,
       "shipping_city": 1,
       "mail_address": 1,
-      "shipping_phone": 1
     },
     "sort": {
       "datetime_first": 1
@@ -48,7 +47,7 @@
       "stock": 1
     }
   },
-  "update_order_print_state": {
+  "update_order": {
     "klass": "orders",
     "query": {
       "company_id": "{{ company_id }}",

@@ -1,9 +1,14 @@
 {
   "en": {
-    "stock_change": "No stock_change param",
+    "no_stock_change": "stock_change param is missing",
     "no_variant": "No variant",
-    "webhook_error": "Error while changing stock count",
     "stock_change": "Stock count change",
     "stock": "New stock count"
+  },
+  "da": {
+    "no_stock_change": "stock_change parameter mangler",
+    "no_variant": "Ingen variant",
+    "stock_change": "Ændring",
+    "stock": "Ny lagerbeholdning"
   }
 }

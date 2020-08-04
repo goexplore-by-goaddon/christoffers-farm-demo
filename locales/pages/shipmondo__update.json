@@ -1,0 +1,12 @@
+{
+  "en": {
+    "updated": "You've updated",
+    "not_found": "The account wasn't found",
+    "not_updated": "Nothing to update"
+  },
+  "da": {
+    "updated": "Du har opdateret",
+    "not_found": "Ingen konto fundet",
+    "not_updated": "Intet at opdatere"
+  }
+}

@@ -2,7 +2,7 @@
   "variants": {
     "klass": "variants",
     "query": {
-      "sku_2": "{{ sku_2 }}",
+      "_id": "{{ _id }}",
       "company_id": "{{ company_id }}"
     },
     "projection": {
