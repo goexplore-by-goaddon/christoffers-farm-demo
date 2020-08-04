@@ -8,6 +8,9 @@
       "shipmondo_zip_code": "Your ZIP code",
       "shipmondo_city": "Your city",
       "shipmondo_country_code": "Your country code"
+    },
+    "buttons": {
+      "update": "Update"
     }
   },
   "da": {
@@ -19,6 +22,9 @@
       "shipmondo_zip_code": "Dit postnummer",
       "shipmondo_city": "Din by",
       "shipmondo_country_code": "Din landekode"
+    },
+    "buttons": {
+      "update": "Opdater"
     }
   }
 }
