@@ -1,5 +1,5 @@
 <h5 class="mb-3">{{ l.headline }}</h5>
-<form class="update-task" action="{{ 'shipmondo__update' | path_for: format: 'js' }}" method="patch" data-remote="true">
+<form class="update-task" action="{{ 'companies__shipmondo' | path_for: id: account._id, format: 'js' }}" method="patch" data-remote="true">
   <div class="form-group">
     <input class="form-control mr-3" type="text" name="name" placeholder="{{ l.placeholders.shipmondo_api_token }}" value="{{ account.shipmondo_api_token | decrypt }}">
   </div>
