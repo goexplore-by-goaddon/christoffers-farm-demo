@@ -6,7 +6,7 @@
 
   {% if companies_update.matched_count != 1 %}
     alertify.error("{{ l.not_found }}");
-  {% elsif tasks_update.updated_count != 1 %}
+  {% elsif companies_update.updated_count != 1 %}
     alertify.message("{{ l.not_updated }}");
   {% else %}
     alertify.success("{{ l.updated }}");
