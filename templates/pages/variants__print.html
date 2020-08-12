@@ -55,6 +55,7 @@
   </table>
 
   {% assign pms = "plus minus" | split: " " %}
+
   <table class="table">
     <tbody>
       {% for i in (1..10) %}
@@ -70,7 +71,7 @@
               {% endif %}
 
               {% assign image_name = "qr" %}
-              {% capture image_name %}{{ image_name }}_{{ i }}{% endcapture %}
+              {% capture image_name %}{{ image_name }}_{{ i }}.png{% endcapture %}
               {% assign image_path = image_name | image %}
 
               {% assign image_div = "qr" %}
