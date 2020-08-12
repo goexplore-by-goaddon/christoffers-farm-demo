@@ -1,0 +1,16 @@
+{
+  "en": {
+    "variant_headers": {
+      "sku": "SKU",
+      "sku_2": "SKU 2",
+      "ean": "EAN"
+    }
+  },
+  "da": {
+    "variant_headers": {
+      "sku": "SKU",
+      "sku_2": "SKU 2",
+      "ean": "EAN"
+    }
+  }
+}

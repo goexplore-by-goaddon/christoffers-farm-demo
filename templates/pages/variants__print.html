@@ -1,0 +1,98 @@
+{% assign variants_query  = "variants" | db_find: company_id: account._id, _id: params.id %}
+{% assign variant         = variants_query.results.first %}
+
+{% if variant != nil %}
+  {% assign products_query        = "products" | db_find: company_id: account._id, _id: variant.product_id %}
+  {% assign product               = products_query.results.first %}
+  <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
+
+  <table class="mb-3">
+    <tbody>
+      <tr>
+        <td colspan="2">
+          {{ product.name | decrypt | strip_html }}
+          {% assign variations = "" %}
+          {% for variation in variant.variations %}
+            {% if variations != "" %}
+              {% capture variations %}{{ variations }}, {% endcapture %}
+            {% endif %}
+            {% capture variations %}{{ variations }}{{ variation[0] | decrypt | strip_html }}: {{ variation[1] | decrypt | strip_html }}{% endcapture %}
+          {% endfor %}
+          {% if variations != "" %}
+            &nbsp;({{ variations | strip_html }})
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <td class="pr-3">
+          <b>{{ l.variant_headers.sku }}:</b>
+        </td>
+        <td>
+          {% include "variant/details/sku" %}
+        </td>
+      </tr>
+      {% if variant.sku_2 != nil and variant.sku_2 != "" %}
+        <tr>
+          <td class="pr-3">
+            <b>{{ l.variant_headers.sku_2 }}:</b>
+          </td>
+          <td>
+            {% include "variant/details/sku_2" %}
+          </td>
+        </tr>
+      {% endif %}
+      {% if variant.ean != nil and variant.ean != "" %}
+        <tr>
+          <td class="pr-3">
+            <b>{{ l.variant_headers.ean }}:</b>
+          </td>
+          <td>
+            {% include "variant/details/ean" %}
+          </td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  {% assign pms = "plus minus" | split: " " %}
+  <table class="table">
+    <tbody>
+      {% for i in (1..10) %}
+        <tr>
+          {% for pm in pms %}
+            <td class="py-4 text-center">
+              {% if pm == "plus" %}
+                {% assign sign = "" %}
+                {% assign colour = "#046A09" %}
+              {% else %}
+                {% assign sign = "-" %}
+                {% assign colour = "#8B0000" %}
+              {% endif %}
+
+              {% assign image_name = "qr" %}
+              {% capture image_name %}{{ image_name }}_{{ i }}{% endcapture %}
+              {% assign image_path = image_name | image %}
+
+              {% assign image_div = "qr" %}
+              {% capture image_div %}{{ pm }}_{{ image_div }}_{{ i }}{% endcapture %}
+          
+              <div id="{{ image_div }}"></div>
+               
+              <script>
+                var options = {
+                  text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ i }}",
+                  colorDark: "{{ colour }}",
+                  backgroundImage: "{{ image_path }}",
+                  dotScale: "0.7",
+                  height: 100,
+                  width: 100
+                };
+                new QRCode(document.getElementById("{{ image_div }}"), options);
+              </script>
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
