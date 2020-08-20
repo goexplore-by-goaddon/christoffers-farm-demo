@@ -1,9 +1,11 @@
 {
   "authenticate": {
-    "gofetch_api": false
+    "gofetch_api": false,
+    "unauthenticated": false
   },
   "container": {
     "gofetch_events__index": "gofetch_api",
-    "gofetch_events__create": "gofetch_api"
+    "gofetch_events__create": "gofetch_api",
+    "static_pages__index": "unauthenticated"
   }
 }
