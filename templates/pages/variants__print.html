@@ -3,14 +3,9 @@
 
 {% if variant != nil %}
     <style>
-
-    #printable { display: none; }
-
-    @media print
-    {
+      @media print {
         .greeting { display: none; }
-        #printable { display: block; }
-    }
+      }
     </style>
   {% assign products_query        = "products" | db_find: company_id: account._id, _id: variant.product_id %}
   {% assign product               = products_query.results.first %}
