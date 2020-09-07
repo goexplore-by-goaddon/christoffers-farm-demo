@@ -12,11 +12,11 @@
 
   <div id="printable">
     <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
-    <table class="mb-3">
+    <table class="mb-4">
       <tbody>
         <tr>
           <td colspan="4">
-            <h2>
+            <h3>
               {{ product.name | decrypt | strip_html }}
               {% assign variations = "" %}
               {% for variation in variant.variations %}
@@ -64,7 +64,7 @@
 
     {% assign pms = "plus minus" | split: " " %}
 
-    <table>
+    <table width="100%">
       <tbody>
         {% for i in (1..5) %}
           <tr>
@@ -76,10 +76,10 @@
                 <td class="p-3 text-center">
                   {% if pm == "plus" %}
                     {% assign sign = "" %}
-                    {% assign colour = "#046A09" %}
+                    {% assign colour = "#67D16C" %}
                   {% else %}
                     {% assign sign = "-" %}
-                    {% assign colour = "#8B0000" %}
+                    {% assign colour = "#D17467" %}
                   {% endif %}
 
                   {% assign image_name = "qr" %}
