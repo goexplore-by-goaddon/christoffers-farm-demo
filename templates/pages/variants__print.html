@@ -16,9 +16,9 @@
   </script>
   {% assign products_query        = "products" | db_find: company_id: account._id, _id: variant.product_id %}
   {% assign product               = products_query.results.first %}
-  <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
 
   <div id="printableArea">
+    <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
     <table class="mb-3">
       <tbody>
         <tr>
