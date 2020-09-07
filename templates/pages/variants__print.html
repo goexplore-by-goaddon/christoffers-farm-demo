@@ -3,7 +3,6 @@
 
 {% if variant != nil %}
     <style>
-      @page { size: auto;  margin: 0mm; }
       @media print {
         .greeting { display: none; }
       }
@@ -16,18 +15,20 @@
     <table class="mb-3">
       <tbody>
         <tr>
-          <td colspan="2">
+          <td colspan="4">
             {{ product.name | decrypt | strip_html }}
-            {% assign variations = "" %}
-            {% for variation in variant.variations %}
+            <h2>
+              {% assign variations = "" %}
+              {% for variation in variant.variations %}
+                {% if variations != "" %}
+                  {% capture variations %}{{ variations }}, {% endcapture %}
+                {% endif %}
+                {% capture variations %}{{ variations }}{{ variation[0] | decrypt | strip_html }}: {{ variation[1] | decrypt | strip_html }}{% endcapture %}
+              {% endfor %}
               {% if variations != "" %}
-                {% capture variations %}{{ variations }}, {% endcapture %}
+                &nbsp;({{ variations | strip_html }})
               {% endif %}
-              {% capture variations %}{{ variations }}{{ variation[0] | decrypt | strip_html }}: {{ variation[1] | decrypt | strip_html }}{% endcapture %}
-            {% endfor %}
-            {% if variations != "" %}
-              &nbsp;({{ variations | strip_html }})
-            {% endif %}
+            </h2>
           </td>
         </tr>
         <tr>
