@@ -58,44 +58,39 @@
 
   <table class="table">
     <tbody>
-      {% for i in (1..5) %}
+      {% for i in (1..10) %}
         <tr>
           {% for pm in pms %}
-            {% assign pls = "0 5" | split: " " %}
-            {% for pl in pls %}
-              {% assign p = pl | plus: 0 %}
-              {% assign n = i | plus: p %}
-              <td class="py-4 text-center">
-                {% if pm == "plus" %}
-                  {% assign sign = "" %}
-                  {% assign colour = "#046A09" %}
-                {% else %}
-                  {% assign sign = "-" %}
-                  {% assign colour = "#8B0000" %}
-                {% endif %}
+            <td class="py-4 text-center">
+              {% if pm == "plus" %}
+                {% assign sign = "" %}
+                {% assign colour = "#046A09" %}
+              {% else %}
+                {% assign sign = "-" %}
+                {% assign colour = "#8B0000" %}
+              {% endif %}
 
-                {% assign image_name = "qr" %}
-                {% capture image_name %}{{ image_name }}_{{ n }}.png{% endcapture %}
-                {% assign image_path = image_name | image %}
+              {% assign image_name = "qr" %}
+              {% capture image_name %}{{ image_name }}_{{ i }}.png{% endcapture %}
+              {% assign image_path = image_name | image %}
 
-                {% assign image_div = "qr" %}
-                {% capture image_div %}{{ pm }}_{{ image_div }}_{{ n }}{% endcapture %}
-            
-                <div id="{{ image_div }}"></div>
-                 
-                <script>
-                  var options = {
-                    text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ n }}",
-                    colorDark: "{{ colour }}",
-                    backgroundImage: "{{ image_path }}",
-                    dotScale: "0.7",
-                    height: 100,
-                    width: 100
-                  };
-                  new QRCode(document.getElementById("{{ image_div }}"), options);
-                </script>
-              </td>
-            {% endfor %}
+              {% assign image_div = "qr" %}
+              {% capture image_div %}{{ pm }}_{{ image_div }}_{{ i }}{% endcapture %}
+          
+              <div id="{{ image_div }}"></div>
+               
+              <script>
+                var options = {
+                  text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ i }}",
+                  colorDark: "{{ colour }}",
+                  backgroundImage: "{{ image_path }}",
+                  dotScale: "0.7",
+                  height: 100,
+                  width: 100
+                };
+                new QRCode(document.getElementById("{{ image_div }}"), options);
+              </script>
+            </td>
           {% endfor %}
         </tr>
       {% endfor %}
