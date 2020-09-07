@@ -2,15 +2,27 @@
 {% assign variant         = variants_query.results.first %}
 
 {% if variant != nil %}
-    <style>
+<!--     <style>
       @media print {
         .greeting { display: none; }
       }
-    </style>
+    </style> -->
+  <script>
+    function printDiv() { 
+      var divContents = document.getElementById("GFG").innerHTML; 
+      var a = window.open('', '', 'height=500, width=500'); 
+      a.document.write('<html>'); 
+      a.document.write('<body > <h1>Div contents are <br>'); 
+      a.document.write(divContents); 
+      a.document.write('</body></html>'); 
+      a.document.close(); 
+      a.print(); 
+    } 
+  </script> 
   {% assign products_query        = "products" | db_find: company_id: account._id, _id: variant.product_id %}
   {% assign product               = products_query.results.first %}
 
-  <div id="printable">
+  <div id="GFG">
     <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
     <table class="mb-3">
       <tbody>
@@ -110,4 +122,5 @@
       </tbody>
     </table>
   </div>
+  <input type="button" value="click" onclick="printDiv()"> 
 {% endif %}
