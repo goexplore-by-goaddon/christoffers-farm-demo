@@ -2,22 +2,20 @@
 {% assign variant         = variants_query.results.first %}
 
 {% if variant != nil %}
-  <script>
-    function printDiv(divName) {
-      var printContents = document.getElementById(divName).innerHTML;
-      var originalContents = document.body.innerHTML;
+    <style>
 
-      document.body.innerHTML = printContents;
+    #printable { display: none; }
 
-      window.print();
-
-      document.body.innerHTML = originalContents;
+    @media print
+    {
+        #non-printable { display: none; }
+        #printable { display: block; }
     }
-  </script>
+    </style>
   {% assign products_query        = "products" | db_find: company_id: account._id, _id: variant.product_id %}
   {% assign product               = products_query.results.first %}
 
-  <div id="printableArea">
+  <div id="printable">
     <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
     <table class="mb-3">
       <tbody>
@@ -115,5 +113,4 @@
       </tbody>
     </table>
   </div>
-  <input type="button" onclick="printDiv('printableArea')" value="print a div!" />
 {% endif %}
