@@ -64,7 +64,7 @@
 
     {% assign pms = "plus minus" | split: " " %}
 
-    <table>
+    <table width="100%">
       <tbody>
         {% for i in (1..5) %}
           <tr>
@@ -76,10 +76,10 @@
                 <td class="p-3 text-center">
                   {% if pm == "plus" %}
                     {% assign sign = "" %}
-                    {% assign colour = "#67D16C" %}
+                    {% assign colour = "#046A09" %}
                   {% else %}
                     {% assign sign = "-" %}
-                    {% assign colour = "#D17467" %}
+                    {% assign colour = "#8B0000" %}
                   {% endif %}
 
                   {% assign image_name = "qr" %}
