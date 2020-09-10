@@ -93,13 +93,13 @@
                    
                   <script>
                     var options = {
-                      text: "https://growcommerce.app/variants/{{ variant._id }}/scan?change={{ sign }}{{ n }}",
+                      text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ n }}",
                       colorDark: "{{ colour }}",
                       backgroundImage: "{{ image_path }}",
                       correctLevel: QRCode.CorrectLevel.L,
                       dotScale: "0.5",
-                      height: 120,
-                      width: 120
+                      height: 140,
+                      width: 140
                     };
                     new QRCode(document.getElementById("{{ image_div }}"), options);
                   </script>
