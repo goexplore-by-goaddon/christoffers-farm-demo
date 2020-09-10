@@ -83,7 +83,7 @@
                   {% endif %}
 
                   {% assign image_name = "qr" %}
-                  {% capture image_name %}{{ image_name }}_{{ pm }}_1.jpg{% endcapture %}
+                  {% capture image_name %}{{ image_name }}_plus_1.jpg{% endcapture %}
                   {% assign image_path = image_name | image %}
 
                   {% assign image_div = "qr" %}
@@ -94,7 +94,7 @@
                   <script>
                     var options = {
                       text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ n }}",
-                      colorDark: "#000",
+                      colorDark: "{{ colour }}",
                       backgroundImage: "{{ image_path }}",
                       correctLevel: QRCode.CorrectLevel.M,
                       dotScale: "0.5",
