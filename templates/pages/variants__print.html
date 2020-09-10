@@ -83,11 +83,11 @@
                   {% endif %}
 
                   {% assign image_name = "qr" %}
-                  {% capture image_name %}{{ pm }}_{{ image_name }}_1.jpg{% endcapture %}
+                  {% capture image_name %}{{ image_name }}_{{ pm }}_1.jpg{% endcapture %}
                   {% assign image_path = image_name | image %}
 
                   {% assign image_div = "qr" %}
-                  {% capture image_div %}{{ pm }}_{{ image_div }}_{{ n }}{% endcapture %}
+                  {% capture image_div %}{{ image_div }}_{{ pm }}_{{ n }}{% endcapture %}
               
                   <div id="{{ image_div }}"></div>
                    
