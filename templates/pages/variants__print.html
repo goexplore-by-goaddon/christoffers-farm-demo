@@ -62,7 +62,7 @@
       </tbody>
     </table>
 
-    {% assign pms = "pl mn" | split: " " %}
+    {% assign pms = "plus minus" | split: " " %}
 
     <table class="table">
       <tbody>
@@ -74,7 +74,7 @@
                 {% assign p = pl | plus: 0 %}
                 {% assign n = i | plus: p %}
                 <td class="p-3 text-center">
-                  {% if pm == "pl" %}
+                  {% if pm == "plus" %}
                     {% assign sign = "" %}
                     {% assign colour = "#046A09" %}
                   {% else %}
