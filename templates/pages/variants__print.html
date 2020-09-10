@@ -64,7 +64,7 @@
 
     {% assign pms = "plus minus" | split: " " %}
 
-    <table class="table">
+    <table>
       <tbody>
         {% for i in (1..5) %}
           <tr>
@@ -77,7 +77,7 @@
                   {% if pm == "plus" %}
                     {% assign sign = "" %}
                     {% assign colour = "#046A09" %}
-                  {% else %}
+                  {% elsif pm == "minus" %}
                     {% assign sign = "-" %}
                     {% assign colour = "#8B0000" %}
                   {% endif %}
