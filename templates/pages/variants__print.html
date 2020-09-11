@@ -12,7 +12,7 @@
 
   <div id="printable">
     <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
-    <table class="mb-4">
+    <table class="mb-2">
       <tbody>
         <tr>
           <td colspan="4">
@@ -99,7 +99,8 @@
                       correctLevel: QRCode.CorrectLevel.M,
                       dotScale: "0.5",
                       height: 130,
-                      width: 130
+                      width: 130,
+                      quietZone: 4
                     };
                     new QRCode(document.getElementById("{{ image_div }}"), options);
                   </script>
