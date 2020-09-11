@@ -73,7 +73,7 @@
               {% for pl in pls %}
                 {% assign p = pl | plus: 0 %}
                 {% assign n = i | plus: p %}
-                <td class="p-3 text-center">
+                <td class="p-2 text-center">
                   {% if pm == "plus" %}
                     {% assign sign = "" %}
                     {% assign colour = "#046A09" %}
@@ -98,8 +98,8 @@
                       backgroundImage: "{{ image_path }}",
                       correctLevel: QRCode.CorrectLevel.M,
                       dotScale: "0.5",
-                      height: 120,
-                      width: 120
+                      height: 130,
+                      width: 130
                     };
                     new QRCode(document.getElementById("{{ image_div }}"), options);
                   </script>
