@@ -4,7 +4,7 @@
 {% if variant != nil %}
     <style>
       @media print {
-        .greeting { display: none; }
+        .col-nav, .greeting { display: none; }
       }
     </style>
   {% assign products_query        = "products" | db_find: company_id: account._id, _id: variant.product_id %}
