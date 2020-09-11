@@ -34,24 +34,18 @@
         <tr>
           <td class="pr-3">
             <b>{{ l.variant_headers.sku }}:</b>
-          </td>
-          <td>
-            {{ variant.sku | decrypt | strip_html }}
+            &nbsp;{{ variant.sku | decrypt | strip_html }}
           </td>
         {% if variant.sku_2 != nil and variant.sku_2 != "" %}
           <td class="pr-3">
             <b>{{ l.variant_headers.sku_2 }}:</b>
-          </td>
-          <td>
-            {{ variant.sku_2 | decrypt | strip_html }}
+            &nbsp;{{ variant.sku_2 | decrypt | strip_html }}
           </td>
         {% endif %}
         {% if variant.ean != nil and variant.ean != "" %}
           <td class="pr-3">
             <b>{{ l.variant_headers.ean }}:</b>
-          </td>
-          <td>
-            {{ variant.ean | decrypt | strip_html }}
+            &nbsp;{{ variant.ean | decrypt | strip_html }}
           </td>
         {% endif %}
         </tr>
