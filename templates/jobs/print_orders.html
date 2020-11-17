@@ -95,9 +95,9 @@
 
               {% if printing_order_query.updated_count == 1 %}
 
-                {% assign shipping_name       = order.shipping_name | decrypt %}
-                {% assign shipping_first_name = order.shipping_first_name | decrypt %}
-                {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
+                {% assign shipping_name       = order.shipping_name | decrypt %}
+                {% assign shipping_first_name = order.shipping_first_name | decrypt %}
+                {% assign shipping_last_name  = order.shipping_last_name | decrypt %}
 
                 {% if shipping_name != nil %}
 
@@ -110,11 +110,11 @@
 
                 {% endif %}
 
-                {% assign address_1           = order.shipping_address_1 | decrypt %}
-                {% assign address_2           = order.shipping_address_2 | decrypt %}
-                {% assign zip_code            = order.shipping_zip_code | decrypt %}
-                {% assign city                = order.shipping_city | decrypt %}
-                {% assign mail_address        = order.mail_address | decrypt %}
+                {% assign address_1           = order.shipping_address_1 | decrypt %}
+                {% assign address_2           = order.shipping_address_2 | decrypt %}
+                {% assign zip_code            = order.shipping_zip_code | decrypt %}
+                {% assign city                = order.shipping_city | decrypt %}
+                {% assign mail_address        = order.mail_address | decrypt %}
                 {% shipmondo_api_token        = company.shipmondo_api_token | decrypt %}
 
                 {% assign print_order = "print_order" | webhook: shipmondo_api_token: shipmondo_api_token, name: name, address_1: address_1, address_2: address_2, zip_code: zip_code, city: city, mail_address: mail_address, package_weight: package_weight, packing_list: packing_list, order_number: order.order_number, company_name: company.shipmondo_name, company_address1: company.shipmondo_address_1, company_zip_code: company.shipmondo_zip_code, company_city: company.shipmondo_city, country_code: company.shipmondo_country_code %}
