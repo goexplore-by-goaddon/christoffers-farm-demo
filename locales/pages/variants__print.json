@@ -1,5 +1,6 @@
 {
   "en": {
+    "title": "Print",
     "variant_headers": {
       "sku": "SKU",
       "sku_2": "SKU 2",
@@ -7,6 +8,7 @@
     }
   },
   "da": {
+    "title": "Print",
     "variant_headers": {
       "sku": "SKU",
       "sku_2": "SKU 2",

@@ -31,7 +31,7 @@
       },
       "parcels": [
         {
-          "weight": "{{ package_weight | int }}"
+          "weight": "{{ package_weight }}"
         }
       ],
       "print": true,

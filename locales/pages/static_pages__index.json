@@ -1,6 +1,12 @@
 {
   "en": {
+    "title": "Welcome to GrowCommerce",
     "headline": "Welcome",
     "explainer": "Welcome to GrowCommerce"
+  },
+  "da": {
+    "title": "Velkommen til GrowCommerce",
+    "headline": "Velkommen",
+    "explainer": "Velkommen til GrowCommerce"
   }
 }

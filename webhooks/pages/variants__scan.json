@@ -8,7 +8,7 @@
     },
     "body": {
       "data": {
-        "stock_change": "{{ stock_change | int }}"
+        "stock_change": "{{ stock_change }}"
       }
     }
   }

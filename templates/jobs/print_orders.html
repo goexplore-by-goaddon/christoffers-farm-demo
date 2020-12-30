@@ -25,7 +25,7 @@
       {% endif %}
     {% endfor %}
 
-    {% assign variant_ids = variant_ids | lstrip | split: " " %}
+    {% assign variant_ids = variant_ids | lstrip | split: " " | uniq %}
 
     {% if variant_ids.size > 0 %}
 

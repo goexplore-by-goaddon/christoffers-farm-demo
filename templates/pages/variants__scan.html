@@ -14,7 +14,9 @@
 
   {% else %}
 
-    {% assign variants_update = "update_variant" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, variant_id: params.id, stock_change: params.stock_change %}
+    {% assign stock_change = params.stock_change | plus: 0 %}
+
+    {% assign variants_update = "update_variant" | webhook: gofetch_url: project.addon_data.addon_5b9ff6463ab42f43522b30cf.url, gofetch_shop_api_token: project.secrets.gofetch_shop_api_token, variant_id: params.id, stock_change: stock_change %}
 
     {% if variants_update.code != 200 %}
 
@@ -23,7 +25,7 @@
     {% else %}
 
       <p>{{ l.stock_change }}</p>
-      <p><h5 class="mb-3">{{ params.stock_change }}</h5></p>
+      <p><h5 class="mb-3">{{ stock_change }}</h5></p>
 
       {% if variants_update.body.result.stock != nil %}
 

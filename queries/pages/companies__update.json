@@ -5,12 +5,14 @@
       "_id": "{{ _id }}"
     },
     "document": {
-      "shipmondo_api_token": "{{ shipmondo_api_token }}",
-      "shipmondo_name": "{{ shipmondo_name }}",
-      "shipmondo_address_1": "{{ shipmondo_address_1 }}",
-      "shipmondo_zip_code": "{{ shipmondo_zip_code }}",
-      "shipmondo_city": "{{ shipmondo_city }}",
-      "shipmondo_country_code": "{{ shipmondo_country_code }}"
+      "$set": {
+        "shipmondo_api_token": "{{ shipmondo_api_token }}",
+        "shipmondo_name": "{{ shipmondo_name }}",
+        "shipmondo_address_1": "{{ shipmondo_address_1 }}",
+        "shipmondo_zip_code": "{{ shipmondo_zip_code }}",
+        "shipmondo_city": "{{ shipmondo_city }}",
+        "shipmondo_country_code": "{{ shipmondo_country_code }}"
+      }
     }
   }
 }

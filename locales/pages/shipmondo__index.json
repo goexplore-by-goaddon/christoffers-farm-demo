@@ -1,5 +1,6 @@
 {
   "en": {
+    "title": "Shipmondo",
     "headline": "Your Shipmondo account",
     "placeholders": {
       "shipmondo_api_token": "Your API token",
