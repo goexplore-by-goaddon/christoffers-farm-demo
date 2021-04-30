@@ -11,7 +11,6 @@
   {% assign product               = products_query.results.first %}
 
   <div id="printable">
-    <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@3.8.1/dist/easy.qrcode.min.js" integrity="sha256-OpZcMRzXbZNlZ6n9RULLGHKeUUejDc3+n8zcwkS3FLk=" crossorigin="anonymous"></script>
     <table class="mb-2">
       <tbody>
         <tr>
@@ -82,17 +81,19 @@
                   <div id="{{ image_div }}"></div>
                    
                   <script>
-                    var options = {
-                      text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ n }}",
-                      colorDark: "{{ colour }}",
-                      backgroundImage: "{{ image_path }}",
-                      correctLevel: QRCode.CorrectLevel.M,
-                      dotScale: "0.5",
-                      height: 135,
-                      width: 135,
-                      quietZone: 5
-                    };
-                    new QRCode(document.getElementById("{{ image_div }}"), options);
+                    document.addEventListener("turbo:load", function() {
+                      var options = {
+                        text: "https://growcommerce.app/variants/{{ variant._id }}/scan?stock_change={{ sign }}{{ n }}",
+                        colorDark: "{{ colour }}",
+                        backgroundImage: "{{ image_path }}",
+                        correctLevel: QRCode.CorrectLevel.M,
+                        dotScale: "0.5",
+                        height: 135,
+                        width: 135,
+                        quietZone: 5
+                      };
+                      new QRCode(document.getElementById("{{ image_div }}"), options);
+                    });
                   </script>
                 </td>
               {% endfor %}
